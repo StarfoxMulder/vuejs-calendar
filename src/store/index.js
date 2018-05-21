@@ -1,14 +1,30 @@
 import Vue from "vue";
 import Vuex from "vuex";
 Vue.use(Vuex);
+import moment from "moment-timezone";
 
 export default new Vuex.Store({
   state: {
-    currentYear: 2018,
-    currentMonth: 5,
+    currentYear: parseInt(moment().format("YYYY")),
+    currentMonth: parseInt(moment().format("MM")),
     eventFormPosX: 0,
     eventFormPosY: 0,
-    eventFormActive: false
+    eventFormActive: false,
+    events: [
+      {
+        description: "Dinner with Brianna",
+        date: moment("2018-05-17", "YYYY-MM-DD")
+      },
+      {
+        description: "Interview with Cody",
+        date: moment("2018-05-20", "YYYY-MM-DD")
+      },
+      {
+        description: "Dentist appointment",
+        date: moment("2018-05-22", "YYYY-MM-DD")
+      }
+    ],
+    eventFormDate: moment()
   },
   mutations: {
     setCurrentMonth(state, payload) {
@@ -23,6 +39,15 @@ export default new Vuex.Store({
     },
     eventFormActive(state, payload) {
       state.eventFormActive = payload;
+    },
+    addEvent(state, payload) {
+      state.events.push({
+        description: payload,
+        date: state.eventFormDate
+      });
+    },
+    eventFormDate(state, payload) {
+      state.eventFormDate = payload;
     }
   }
 });
